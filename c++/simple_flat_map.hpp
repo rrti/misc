@@ -178,7 +178,7 @@ public:
 	bool erased(size_t n) const { return (get_flag(n)); }
 
 	bool valid() const {
-		#if 0
+		#ifdef DEBUG
 		// count the number of *in-order* elements, erased or not
 		// this should always equal the size of the sorted region
 		size_t num_sorted_elems = 1;
@@ -293,10 +293,7 @@ public:
 		if (sorted())
 			return;
 
-		// note:
-		//   expects a less-than comparator unlike the custom bfind()
-		//   keys can also not be const members of t_{elem,flag}_pair
-		//   which makes iterators risky
+		// note: can not sort pairs with const keys, write-protect iterators
 		std::sort(m_elems.begin(), m_elems.begin() + vec_size(), m_sort_pred);
 		std::sort(m_flags.begin(), m_flags.begin() + vec_size(), m_sort_pred);
 
@@ -461,7 +458,7 @@ private:
 		assert(valid());
 
 		// swap the new element into position; same as moving existing elements over
-		for (n = vec_size() - 1; (n != 0 && m_sort_pred(m_elems[n], m_elems[n - 1])    ); n -= 1) {
+		for (n = vec_size() - 1; (n != 0 && m_sort_pred(m_elems[n], m_elems[n - 1])); n -= 1) {
 			std::swap(m_elems[n - 1], m_elems[n]);
 			std::swap(m_flags[n - 1], m_flags[n]);
 		}

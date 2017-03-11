@@ -26,14 +26,9 @@ public:
 	}
 
 	void set_range(t_real min, t_real max) {
-		m_distrib_param_type params = m_distrib.param();
-
 		// range is [min := min(b - a), max := max(b - a)]
-		params.min(min);
-		params.max(max);
-
 		m_distrib.reset();
-		m_distrib.param(params);
+		m_distrib.param(m_distrib_param_type{min, max});
 	}
 
 	// same as std::generate, but with implicit generator
@@ -44,6 +39,10 @@ public:
 	}
 
 	t_real operator ()() { return (m_distrib(m_sampler)); }
+
+	t_real min_range() const { return (m_distrib.a()); }
+	t_real max_range() const { return (m_distrib.b()); }
+	t_real val_range() const { return (max_range() - min_range()); }
 
 private:
 	m_sampler_type m_sampler;
@@ -74,13 +73,8 @@ public:
 	}
 
 	void set_range(t_int min, t_int max) {
-		m_distrib_param_type params = m_distrib.param();
-
-		params.min(min);
-		params.max(max);
-
 		m_distrib.reset();
-		m_distrib.param(params);
+		m_distrib.param(m_distrib_param_type{min, max});
 	}
 
 	template<typename t_iter> void gen_samples(t_iter first, t_iter last) {
@@ -91,10 +85,21 @@ public:
 
 	t_int operator ()() { return (m_distrib(m_sampler)); }
 
+	t_int min_range() const { return (m_distrib.a()); }
+	t_int max_range() const { return (m_distrib.b()); }
+	t_int val_range() const { return (max_range() - min_range()); }
+
 private:
 	m_sampler_type m_sampler;
 	m_distrib_type m_distrib;
 };
+
+
+typedef t_uniform_real_rng< float> t_uniform_f32_rng;
+typedef t_uniform_real_rng<double> t_uniform_f64_rng;
+
+typedef t_uniform_int_rng<uint32_t> t_uniform_u32_rng;
+typedef t_uniform_int_rng<uint64_t> t_uniform_u64_rng;
 
 #endif
 
