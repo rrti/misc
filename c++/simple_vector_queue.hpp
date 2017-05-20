@@ -38,8 +38,8 @@ public:
 
 	const type& front() const { assert(!empty()); return m_elems[head()]; }
 	const type&  back() const { assert(!empty()); return m_elems[tail()]; }
-		  type& front()       { assert(!empty()); return m_elems[head()]; }
-		  type&  back()       { assert(!empty()); return m_elems[tail()]; }
+	      type& front()       { assert(!empty()); return m_elems[head()]; }
+	      type&  back()       { assert(!empty()); return m_elems[tail()]; }
 
 	bool empty() const { return (size() == 0); }
 	bool valid() const { return (tail() >= head()); }
