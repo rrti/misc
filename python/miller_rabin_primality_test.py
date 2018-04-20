@@ -31,6 +31,17 @@ def fast_exp(x, n, m = 0):
 
 
 
+## Wilson's theorem states that every prime p divides (p - 1)! + 1
+## therefore, a number that does not divide this term is not prime
+def wilson_primality_test(p):
+	n = 1
+
+	for i in xrange(1, p):
+		## (n * i) mod p === r
+		n = (n * i) % p
+
+	return (((n + 1) % p) == 0)
+
 def miller_rabin_primality_test(n, k):
 	if (n == 1): return False
 	if (n == 2): return True

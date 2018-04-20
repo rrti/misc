@@ -19,16 +19,16 @@ def uniform_sample_carthesian_disk_point(radius):
 
 def uniform_sample_polar_disk_point(radius):
 	## polar-coordinate sampling (radius, angle)
-	r0 = rng() * radius
-	r1 = rng() * tau
+	r0 = rng()
+	r1 = rng()
 
 	## wrong, will not result in uniform sampling density
 	## sr = r0
 	## right, see disk point-picking article on mathworld
 	sr = r0 ** 0.5
 
-	x = sr * cos(r1)
-	y = sr * sin(r1)
+	x = sr * cos(r1 * tau) * radius
+	y = sr * sin(r1 * tau) * radius
 
 	return (x, y)
 
